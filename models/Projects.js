@@ -19,6 +19,9 @@ const projectSchema = new mongoose.Schema({
         type:[String],
         default:[]
     },
+    image: {
+        type: String 
+    },
     livelink:{
         type:String,
         default:''
@@ -27,15 +30,12 @@ const projectSchema = new mongoose.Schema({
         type: String,
         default:''
     },
-    image : {
-        type:mongoose.Schema.ObjectId,
-        ref:'Images'
-    },
-    CreatedAt:{
+    createdAt:{
         type:Date,
         default:Date.now
     }
 })
+const projectModel = mongoose.model("Projects",projectSchema)
 
 function validateProject(project) {
     const Schema = Joi.object({
@@ -44,11 +44,12 @@ function validateProject(project) {
         technologies: Joi.array().items(Joi.string()).optional(),
         livelink: Joi.string().uri().optional(),
         repolink: Joi.string().uri().optional(),
-        Image:Joi.string().optional()
-    })
-
+        image: Joi.string().required(),
+    }).unknown(true)
+    
     return Schema.validate(project)
 }
 
-module.exports.Projects = projectSchema
+
+module.exports.Projects = projectModel
 module.exports.validate = validateProject
