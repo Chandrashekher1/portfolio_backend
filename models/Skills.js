@@ -23,5 +23,7 @@ function validateSkill(skill){
     return Schema.validate(skill)
 }
 
-module.exports.skills = SkillSchema
+const skillModel = mongoose.model("Skill",SkillSchema)
+
+module.exports.skills = skillModel
 module.exports.validateSkill = validateSkill
