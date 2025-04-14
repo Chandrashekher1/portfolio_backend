@@ -12,13 +12,19 @@ const SkillSchema = new mongoose.Schema({
     proficiency: {
         type : String,
         enum :["beginner","intermediate","advanced"]
+    },
+    imageUrl: {
+        type : String,
+        required: true
     }
 })
 
 function validateSkill(skill){
     const Schema = Joi.object({
         name: Joi.string().min(2).max(50).required(),
-        proficiency: Joi.string().valid('beginner', 'intermediate', 'advanced').optional()
+        proficiency: Joi.string().valid('beginner', 'intermediate', 'advanced').optional(),
+        imageUrl: Joi.string().uri().required()
+
     })
     return Schema.validate(skill)
 }
