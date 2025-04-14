@@ -6,6 +6,10 @@ const AboutSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email:{
+        type:String,
+        required: true
+    },
     profession: {
         type: [String],
         required:true,
@@ -18,7 +22,9 @@ const AboutSchema = new mongoose.Schema({
         github: {type: String, required:true},
         linkedin: {type: String, required:true},
         twitter: {type: String, required:true},
-        portfolio: {type: String, required:true}
+        portfolio: {type: String, required:true},
+        resume: {type: String, required:true}
+
     }
 }, {timestamps:true})
 
@@ -29,11 +35,13 @@ function AboutValidation(about){
         name: Joi.string().required(),
         profession: Joi.array().items(Joi.string()).required(),
         bio: Joi.string().required(),
+        email: Joi.string().required(),
         socialLinks: Joi.object({
             github: Joi.string().uri().required(),
             linkedin: Joi.string().uri().required(),
             twitter: Joi.string().uri().required(),
-            portfolio: Joi.string().uri().required()
+            portfolio: Joi.string().uri().required(),
+            resume: Joi.string().uri().required()
         }).required()
     })
     return Schema.validate(about)
