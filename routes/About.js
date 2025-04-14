@@ -9,16 +9,22 @@ router.get('/', async(req,res) => {
 })
 
 router.post('/', async(req,res) => {
+
+    const {error} = validate(req.body)
+    if(error) return res.status(404).send({message: error.details[0].message})
+
     try{
         let about = new About({
             name: req.body.name,
             profession: req.body.profession,
             bio: req.body.bio,
+            email: req.body.email,
             socialLinks: {
                 github: req.body.socialLinks.github,
                 linkedin: req.body.socialLinks.linkedin,
                 twitter: req.body.socialLinks.twitter,
-                portfolio: req.body.socialLinks.portfolio
+                portfolio: req.body.socialLinks.portfolio,
+                resume: req.body.socialLinks.resume
             }
         })
         console.log(about);
