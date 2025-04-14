@@ -10,14 +10,15 @@ router.get('/',async(req,res) => {
     res.send(skill)
 })
 
-router.post('/', [auth,admin], async(req,res) => {
+router.post('/',  async(req,res) => {
     const {error} = validateSkill(req.body)
     if(error) return res.status(400).json(error.details[0].message)
     
     try{
         let skill = new skills({
             name: req.body.name,
-            proficiency: req.body.proficiency
+            proficiency: req.body.proficiency,
+            imageUrl: req.body.imageUrl
         })
         skill = await skill.save()
         res.send(skill)
