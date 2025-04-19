@@ -1,6 +1,7 @@
 const {About,validate} =  require('../models/About')
 const express = require('express')
 const router = express.Router()
+const uploadMultiple = require('../config/storage')
 
 router.get('/', async(req,res) => {
     const about = await About.find()
@@ -8,8 +9,7 @@ router.get('/', async(req,res) => {
     res.send(about)
 })
 
-router.post('/', async(req,res) => {
-
+router.post('/', uploadMultiple, async(req,res) => {
     const {error} = validate(req.body)
     if(error) return res.status(404).send({message: error.details[0].message})
 
@@ -25,7 +25,8 @@ router.post('/', async(req,res) => {
                 twitter: req.body.socialLinks.twitter,
                 portfolio: req.body.socialLinks.portfolio,
                 resume: req.body.socialLinks.resume
-            }
+            },
+            image: req.file?.path
         })
         console.log(about);
         
@@ -37,9 +38,9 @@ router.post('/', async(req,res) => {
     }
 })
 
-router.put('/:id', async(req,res) => {
+router.put('/:id',uploadMultiple, async(req,res) => {
     try{
-        let updated = await About.findByIdAndUpdate(req.params.id,req.body, {new: true})
+        let updated = await About.findByIdAndUpdate(req.params.id,req.file?.path, {new: true})
         if(!updated) return res.status(400).json({message:"given data not found."})
         res.send(updated)
     }
