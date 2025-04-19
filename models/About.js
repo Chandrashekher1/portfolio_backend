@@ -18,6 +18,9 @@ const AboutSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String
+    },
     socialLinks: {
         github: {type: String, required:true},
         linkedin: {type: String, required:true},
