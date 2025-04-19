@@ -18,8 +18,13 @@ const AdminSchema = new mongoose.Schema({
     },
     isAdmin: {
         type :Boolean,
-        default: true
-    }
+        default: false
+    },
+    // imageUrl: {
+    //     type: String,
+    //     default:''
+    // }
+
 })
 AdminSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({_id: this._id, isAdmin: this.isAdmin}, process.env.portfolio_jwtPrivateKey)
@@ -31,7 +36,8 @@ const AdminModel = mongoose.model("Admin",AdminSchema)
 function validateAdmin(admin){
     const Schema  = Joi.object({
         email: Joi.string().min(5).max(255).required(),
-        password:Joi.string().min(5).max(255).required()
+        password:Joi.string().min(5).max(255).required(),
+        // imageUrl:Joi.string().uri().optional()
     })
     return Schema.validate(admin)
 }
